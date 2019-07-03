@@ -279,7 +279,7 @@ staffscreen.java
 			 ps.showStaffScreen();
 		 }
 		}
-		if(s==2){
+	if(s==2){
 		System.out.println("Enter Staff ID :");
 		 int q=sc.nextInt();
 		
@@ -299,31 +299,30 @@ staffscreen.java
 		if(res)
 		 {
 			 ps.showStaffScreen();
-		 }
-
-}if(s==3){
-	 System.out.println("Enter Product ID :");
-	 int q=sc.nextInt();
-	
-	 Staff pb=new Staff();
+		 }}  
+      if(s==3){
+	       System.out.println("Enter Product ID :");
+	       int q=sc.nextInt();
+	 
+	      Staff pb=new Staff();
+ 		
+	      pb.setStaffid(q);
 		
-	 pb.setStaffid(q);
-		
-	 StaffController d=new StaffController();
-	 boolean res=d.deleteStaff(pb);
-	if(res)
-	 {
+	     StaffController d=new StaffController();
+             boolean res=d.deleteStaff(pb);
+	     if(res)
+	      {
 		 ps.showStaffScreen();
-	 }
-	}
-if(s==4){
-	MenuScreen ms=new MenuScreen();
-	@SuppressWarnings("unused")
-	int res=ms.showMenu();
+	      }
+	     }
+      if(s==4){
+	  MenuScreen ms=new MenuScreen();
+	  @SuppressWarnings("unused")
+	  int res=ms.showMenu();
 
-	return res;
-}
-	return s;
+	  return res;
+           }
+	 return s;
 	}
 }
 .................................................................................................
@@ -362,7 +361,8 @@ public int showCustomerScreen() throws ProductException
 			 System.out.println("Customer Added Successfully");
 			 ps.showCustomerScreen();
 		 }
-		}if(s==2){
+		}
+         if(s==2){
 		 System.out.println("Enter Customer ID :");
 		 int q=sc.nextInt();
 		 System.out.println("Enter Customer Name :");
@@ -383,31 +383,30 @@ public int showCustomerScreen() throws ProductException
 		 boolean res=d.updateCustomer(pb);
 		if(res)
 		 {
-			 ps.showCustomerScreen();
-		 }
-
-}if(s==3){
-	 System.out.println("Enter Customer ID :");
-	 int q=sc.nextInt();
+	 		 ps.showCustomerScreen();
+		 }}
+          if(s==3){
+	        System.out.println("Enter Customer ID :");
+	        int q=sc.nextInt();
 	
-	 Customer pb=new Customer();
+	        Customer pb=new Customer();
 		pb.setCustomerid(q);
 		
 		CustomerController d=new CustomerController();
 		boolean res=d.deleteCustomer(pb);
-	if(res)
-	 {
+	        if(res)
+	         {
 		 ps.showCustomerScreen();
-	 }
-	}
-if(s==4){
-	MenuScreen ms=new MenuScreen();
-	@SuppressWarnings("unused")
-	int res=ms.showMenu();
+	         }
+	       }
+          if(s==4){
+	        MenuScreen ms=new MenuScreen();
+	        @SuppressWarnings("unused")
+	        int res=ms.showMenu();
 
-	return res;
-}
-	return s;
+	        return res;
+                   }
+	       return s;
 	}		return 0;
 ...........................................................................................................
 staffcontroller.java
@@ -424,7 +423,7 @@ staffcontroller.java
 		 }catch(Exception e){
                 return false;
 		 }
-public boolean updateStaff(Staff pb){
+        public boolean updateStaff(Staff pb){
 		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Staff.class).buildSessionFactory();
 		 Session s=sx.openSession();
 		 Transaction tx=null;
@@ -441,7 +440,7 @@ public boolean updateStaff(Staff pb){
 		return true;
 	}
 	public boolean deleteStaff(Staff product)
-	{
+	         {
 		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Staff.class).buildSessionFactory();
 		 Session s=sx.openSession();
 		 Transaction tx=null;
@@ -473,7 +472,8 @@ customercontroller.java
 		 System.out.println("Data saved...");
 		 }catch(Exception e){
               return false;
-		 }public boolean updateCustomer(Customer pb){
+		 }
+        public boolean updateCustomer(Customer pb){
 		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Customer.class).buildSessionFactory();
 		 Session s=sx.openSession();
 		 Transaction tx=null;
@@ -585,7 +585,7 @@ public class HibernateUtil {
 		return null;
 		
 	}
-public List<Product> searchByID(int productid)
+        public List<Product> searchByID(int productid)
 	{
 		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Product.class).buildSessionFactory();
 		 Session s=sx.openSession();
@@ -663,10 +663,17 @@ public List<Product> searchByID(int productid)
 ..................................................................
 mymain.java
 
-                        System.out.println("--PMS---");
-			System.out.println("..Welcome to Product Management System..");
-			MenuScreen ms=new MenuScreen();
-			ms.showMenu();
+                        	Login login=new Login();
+			Scanner scan=new Scanner(System.in);
+			System.out.println("Enter userid");
+			int id=scan.nextInt();
+		  System.out.println("Enter password");
+		    String pass=scan.next();
+		    login.setUserid(id);
+		   login.setPassword(pass);
+			DataValidator dv=new DataValidator();
+			dv.validateLogin(login);
+
 ...........................................................................
 
 datavalidator.java
@@ -704,7 +711,7 @@ public boolean validateCustomer(Customer customer)  throws ProductException
 		
 		   Pattern pat = Pattern.compile(emailRegex); 
           String email=customer.getEmail();
- Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}"); 
+           Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}"); 
           String num=customer.getMobile();
           Matcher m = p.matcher(num); 
 	      if(pat.matcher(email).matches()){
@@ -720,6 +727,26 @@ public boolean validateCustomer(Customer customer)  throws ProductException
           }
 		// Code to call DAO..
 		return true;
+}
+public boolean validateLogin(Login login) throws ProductException
+{ 
+	      SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Login.class).buildSessionFactory();
+              Session s=sx.openSession();
+             List<Login> product=s.createQuery("From Login").list();
+               for(Login prod:product){
+               if(prod.getPassword().equals(login.getPassword()) && prod.getUserid()==login.getUserid()){
+         	   System.out.println("--PMS---");
+		System.out.println("..Welcome to Product Management System..");
+		MenuScreen ms=new MenuScreen();
+		@SuppressWarnings("unused")
+		int res=ms.showMenu();		
+   }
+   }for(Login prod:product){
+	     if(!prod.getPassword().equals(login.getPassword()) && prod.getUserid()!=login.getUserid()){
+	  		System.out.println("Invalid..");
+	  		break;	
+	     }
+
 ...........................................................................................
 productexception.java
 
