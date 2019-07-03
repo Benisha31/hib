@@ -1,0 +1,732 @@
+product.java
+
+@Entity
+@Table(name="Product")
+public class Product {
+	@Id
+	@Column(name="productid")
+	 int productid;
+	@Column(name="productname")
+
+	 String productname;
+	@Column(name="price")
+
+	 int price;
+	// Create variables and getters and setters..
+	public int getProductid() {
+		return productid;
+	}
+	public void setProductid(int productid) {
+		this.productid = productid;
+	}
+	public String getProductname() {
+		return productname;
+	}
+	public void setProductname(String productname) {
+		this.productname = productname;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int f) {
+		this.price = f;
+	}}
+
+....................................................................................
+staff.java
+
+@Entity
+@Table(name="Staff")
+public class Staff {
+	@Id
+	@Column(name="staffid")
+      int staffid;
+	@Column(name="staffname")
+      String staffname;
+	@Column(name="salary")
+      int salary;
+	public int getStaffid() {
+		return staffid;
+	}
+	public void setStaffid(int staffid) {
+		this.staffid = staffid;
+	}
+	public String getStaffname() {
+		return staffname;
+	}
+	public void setStaffname(String staffname) {
+		this.staffname = staffname;
+	}
+	public int getSalary() {
+		return salary;
+	}
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+}
+...........................................................................
+Customer.java
+
+@Entity
+@Table(name="customer")
+public class Customer {
+	@Id
+	@Column(name="customerid")
+	 int customerid;
+	@Column(name="customername")
+
+	 String customername;
+	@Column(name="email")
+
+	 String email;
+	@Column(name="mobile")
+
+	String mobile;
+	public int getCustomerid() {
+		return customerid;
+	}
+	public void setCustomerid(int customerid) {
+		this.customerid = customerid;
+	}
+	public String getCustomername() {
+		return customername;
+	}
+	public void setCustomername(String customername) {
+		this.customername = customername;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+}
+.................................................................................
+menuscreen.java
+
+System.out.println("Select Your Option"+"\n"+"1. Product"+"\n"+"2. Sales"+"\n"+"3. Staff"+"\n"+"4. Customer"+"\n");
+		System.out.println("Enter your Choice : ");
+		Scanner sc=new Scanner(System.in);
+		int a = sc.nextInt();
+		ProductScreen p=new ProductScreen();
+		StaffScreen q=new StaffScreen();
+ 		CustomerScreen b=new CustomerScreen();
+
+		if(a==1)
+		{
+			p.showProductScreen();
+		}if(a==3){
+			q.showStaffScreen();
+		}if(a==4){
+			b.showCustomerScreen();
+		}
+		return a;
+........................................................................................
+productscreen.java'
+
+		public int showProductScreen()
+		{
+			ProductScreen ps=new ProductScreen();
+			
+			System.out.println("PRODUCT MENU"+"\n");
+			System.out.println("1. New Product"+"\n"+"2. Edit Product"+"\n"+"3. Delete Product"+"\n"+"4. List Product"+"\n"+"5. Search Product"+"\n"+"6. Exit."+"\n");
+			System.out.println("Enter Your Choice :");
+			Scanner sc=new Scanner(System.in);
+			int s = sc.nextInt();
+		if(s==1){
+			 System.out.println("Enter Product ID :");
+			 int q=sc.nextInt();
+			
+			 System.out.println("Enter Product Name :");
+			 String s1=sc.next();
+			
+			 System.out.println("Enter ProductPrice :");
+			 String s2=sc.next();
+				
+				Product pb=new Product();
+				
+			 pb.setProductid(q);
+			 pb.setProductname(s1);
+			 pb.setPrice(Integer.parseInt(s2));
+			 
+			 DataValidator d=new DataValidator();
+			 boolean res=d.validateProduct(pb);
+			if(res)
+			 {
+				 System.out.println("Product Added Successfully");
+				 ps.showProductScreen();
+			 }
+			}
+		if(s==2){
+				System.out.println("Enter Product ID :");
+				 int q=sc.nextInt();
+				
+				 System.out.println("Enter new Product Name :");
+				 String s1=sc.next();
+				
+				 System.out.println("Enter new ProductPrice :");
+				 String s2=sc.next();
+					
+					Product pb=new Product();
+					
+				 pb.setProductid(q);
+				 pb.setProductname(s1);
+				 pb.setPrice(Integer.parseInt(s2));
+				 
+				 DataValidator d=new DataValidator();
+				 boolean res=d.updateProduct(pb);
+				if(res)
+				 {
+					 ps.showProductScreen();
+				 }
+		
+		}if(s==3){
+			 System.out.println("Enter Product ID :");
+			 int q=sc.nextInt();
+			
+			 Product pb=new Product();
+				
+			 pb.setProductid(q);
+				
+			 DataValidator d=new DataValidator();
+			 boolean res=d.deleteProduct(pb);
+			if(res)
+			 {
+				 ps.showProductScreen();
+			 }
+			}
+	      if(s==4){
+				Product pb=new Product();
+				 HibernateUtil d=new HibernateUtil();
+				 d.selectAllProducts();
+			
+					 ps.showProductScreen();
+			}	
+	       if(s==5){
+	                System.out.println("Enter the Search Criteria"+"\n");
+			System.out.println("1. By ProductID"+"\n"+"2. By Name"+"\n"+"3. By Price Range"+"\n");
+			int a=sc.nextInt();
+	                if(a==1){
+				 System.out.println("Enter Product ID :");
+				 int q=sc.nextInt();
+				 HibernateUtil d=new HibernateUtil();
+				 d.searchByID(q);
+				 ps.showProductScreen();
+
+			}if(a==2){
+				 System.out.println("Enter Product Name :");
+				 String q=sc.next();
+				 HibernateUtil d=new HibernateUtil();
+				 d.searchByname(q);
+				 ps.showProductScreen();
+
+			}if(a==3){
+				System.out.println("Enter From price :");
+				 int p=sc.nextInt();
+				 System.out.println("Enter To price :");
+				 int q=sc.nextInt();
+				 HibernateUtil d=new HibernateUtil();
+				 d.searchByrange(p, q);
+
+			}
+		}if(s==6){
+			MenuScreen ms=new MenuScreen();
+			@SuppressWarnings("unused")
+			int res=ms.showMenu();
+			return res;
+		}
+		return s;
+		}
+}
+......................................................................................................
+staffscreen.java
+
+	public int showStaffScreen()
+	{
+		StaffScreen ps=new StaffScreen();
+		
+		System.out.println("Staff MENU"+"\n");
+		System.out.println("1. New Staff"+"\n"+"2. Edit Staff"+"\n"+"3. Delete Staff"+"\n"+"4.Exit."+"\n");
+		System.out.println("Enter Your Choice :");
+		Scanner sc=new Scanner(System.in);
+		int s = sc.nextInt();
+	if(s==1){
+		 System.out.println("Enter Staff ID :");
+		 int q=sc.nextInt();
+		
+		 System.out.println("Enter Staff Name :");
+		 String s1=sc.next();
+		
+		 System.out.println("Enter Salary:");
+		 int s2=sc.nextInt();
+			
+			Staff pb=new Staff();
+			pb.setStaffid(q);
+			pb.setStaffname(s1);
+			pb.setSalary(s2);
+	
+		 StaffController d=new StaffController();
+		 boolean res=d.saveStaff(pb);
+		if(res)
+		 {
+			 System.out.println("Product Added Successfully");
+			 ps.showStaffScreen();
+		 }
+		}
+		if(s==2){
+		System.out.println("Enter Staff ID :");
+		 int q=sc.nextInt();
+		
+		 System.out.println("Enter new Staff Name :");
+		 String s1=sc.next();
+		
+		 System.out.println("Enter new salary :");
+		 int s2=sc.nextInt();
+			
+		 Staff pb=new Staff();
+			pb.setStaffid(q);
+			pb.setStaffname(s1);
+			pb.setSalary(s2);
+		 
+			StaffController d=new StaffController();
+		 boolean res=d.updateStaff(pb);
+		if(res)
+		 {
+			 ps.showStaffScreen();
+		 }
+
+}if(s==3){
+	 System.out.println("Enter Product ID :");
+	 int q=sc.nextInt();
+	
+	 Staff pb=new Staff();
+		
+	 pb.setStaffid(q);
+		
+	 StaffController d=new StaffController();
+	 boolean res=d.deleteStaff(pb);
+	if(res)
+	 {
+		 ps.showStaffScreen();
+	 }
+	}
+if(s==4){
+	MenuScreen ms=new MenuScreen();
+	@SuppressWarnings("unused")
+	int res=ms.showMenu();
+
+	return res;
+}
+	return s;
+	}
+}
+.................................................................................................
+customerscreeen
+
+public int showCustomerScreen() throws ProductException
+	{
+		CustomerScreen ps=new CustomerScreen();
+		
+		System.out.println("Customer MENU"+"\n");
+		System.out.println("1. New Customer"+"\n"+"2. Edit Customer"+"\n"+"3. Delete Customer"+"\n"+"4.Exit."+"\n");
+		System.out.println("Enter Your Choice :");
+		Scanner sc=new Scanner(System.in);
+		int s = sc.nextInt();
+	if(s==1){
+		 System.out.println("Enter Customer ID :");
+		 int q=sc.nextInt();
+		
+		 System.out.println("Enter Customer Name :");
+		 String s1=sc.next();
+		 System.out.println("Enter Email :");
+		 String s2=sc.next();
+		
+		 System.out.println("Enter Mobile no:");
+		 String s3=sc.next();
+			
+		 Customer pb=new Customer();
+			pb.setCustomerid(q);
+			pb.setCustomername(s1);
+	        pb.setEmail(s2);
+	        pb.setMobile(s3);
+	        DataValidator d=new DataValidator();
+		 boolean res=d.validateCustomer(pb);
+		if(res)
+		 {
+			 System.out.println("Customer Added Successfully");
+			 ps.showCustomerScreen();
+		 }
+		}if(s==2){
+		 System.out.println("Enter Customer ID :");
+		 int q=sc.nextInt();
+		 System.out.println("Enter Customer Name :");
+		 String s1=sc.next();
+		 System.out.println("Enter Email :");
+		 String s2=sc.next();
+		
+		 System.out.println("Enter Mobile no:");
+		 String s3=sc.next();
+			
+		 Customer pb=new Customer();
+			pb.setCustomerid(q);
+			pb.setCustomername(s1);
+	        pb.setEmail(s2);
+	        pb.setMobile(s3);
+		 
+			CustomerController d=new CustomerController();
+		 boolean res=d.updateCustomer(pb);
+		if(res)
+		 {
+			 ps.showCustomerScreen();
+		 }
+
+}if(s==3){
+	 System.out.println("Enter Customer ID :");
+	 int q=sc.nextInt();
+	
+	 Customer pb=new Customer();
+		pb.setCustomerid(q);
+		
+		CustomerController d=new CustomerController();
+		boolean res=d.deleteCustomer(pb);
+	if(res)
+	 {
+		 ps.showCustomerScreen();
+	 }
+	}
+if(s==4){
+	MenuScreen ms=new MenuScreen();
+	@SuppressWarnings("unused")
+	int res=ms.showMenu();
+
+	return res;
+}
+	return s;
+	}		return 0;
+...........................................................................................................
+staffcontroller.java
+
+	public boolean saveStaff(Staff staff){
+		 SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Staff.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 s.save(staff);
+		 tx.commit();
+		 System.out.println("Data saved...");
+		 }catch(Exception e){
+                return false;
+		 }
+public boolean updateStaff(Staff pb){
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Staff.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 s.update(pb);
+		 tx.commit();
+		 System.out.println("Data saved...");
+		 }catch(Exception e){
+		
+			 System.out.println("Invalid id..");
+              return false;
+		 }
+		return true;
+	}
+	public boolean deleteStaff(Staff product)
+	{
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Staff.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 Staff pb=(Staff) s.get(Staff.class, product.getStaffid());
+		 s.delete(pb);
+		 tx.commit();
+		 System.out.println("Deleted successfully...");
+		 }catch(Exception e){
+		     e.getMessage();
+			 System.out.println("Invalid id..");
+			 return false;
+
+		 }
+		return true;
+		
+...................................................................................................
+customercontroller.java
+
+	public boolean saveCustomer(Customer customer){
+		 SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Customer.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 s.save(customer);
+		 tx.commit();
+		 System.out.println("Data saved...");
+		 }catch(Exception e){
+              return false;
+		 }public boolean updateCustomer(Customer pb){
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Customer.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 s.update(pb);
+		 tx.commit();
+		 System.out.println("Data saved...");
+		 }catch(Exception e){
+		
+			 System.out.println("Invalid id..");
+              return false;
+		 }
+		return true;
+	}
+	public boolean deleteCustomer(Customer product)
+	{
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Customer.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 tx=s.beginTransaction();
+		 try{
+		 Customer pb=(Customer) s.get(Customer.class, product.getCustomerid());
+		 s.delete(pb);
+		 tx.commit();
+		 System.out.println("Deleted successfully...");
+		 }catch(Exception e){
+				
+			 System.out.println("Invalid id..");
+              return false;
+		 }
+		return true;}
+.........................................................................................
+hibernateutil.java
+
+public class HibernateUtil {
+	public boolean saveProduct(Product product){
+		 SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Product.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 s.save(product);
+		 tx.commit();
+		 System.out.println("Data saved...");
+		 }catch(Exception e){
+                    System.out.println("Invalid id..");
+                  return false;
+		 }
+		return true;	
+		}
+	public boolean updateProduct(Product product)
+	{
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Product.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 s.update(product);
+		 tx.commit();
+		 System.out.println("Data saved...");
+		 }catch(Exception e){
+		
+			 System.out.println("Invalid id..");
+               return false;
+		 }
+		return true;
+	}
+	public boolean deleteProduct(Product product)
+	{
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Product.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 Product pb=(Product) s.get(Product.class, product.getProductid());
+		 s.delete(pb);
+		 tx.commit();
+		 System.out.println("Deleted successfully...");
+		 }catch(Exception e){
+		
+			 System.out.println("Invalid id..");
+			 return false;
+
+		 }
+		return true;	}
+	public List<Product> selectAllProducts()
+	{
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Product.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 List product=s.createQuery("From Product").list();
+		 
+			 
+			 System.out.println("-----------------------------------");
+			 
+			 System.out.format("%-10s %-10s %-10s","Productid","Price","Productname");
+			 System.out.println();
+			 System.out.println("-------------------------------------");
+			 for(Iterator iterate=product.iterator();iterate.hasNext();){
+				 Product prod=(Product) iterate.next();
+		 System.out.format("%-10s %-10s %-10s", prod.getProductid(),prod.getPrice(),prod.getProductname());
+			 System.out.println();
+		 }}catch(Exception e){
+			 e.printStackTrace();
+		 }
+		return null;
+		
+	}
+public List<Product> searchByID(int productid)
+	{
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Product.class).buildSessionFactory();
+		 Session s=sx.openSession();
+		 Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 System.out.println("-----------------------------------");
+		 System.out.format("%-10s %-10s %-10s","Productid","Price","Productname");
+		 System.out.println();
+		 System.out.println("-------------------------------------");
+		 Query query=s.createQuery("From Product where productid=:pid");
+                 query.setParameter("pid", productid);
+                 List pb=query.list();
+                 for(Iterator iterate=pb.iterator();iterate.hasNext();){
+		 Product prod=(Product) iterate.next();
+                 System.out.format("%-10s %-10s %-10s", prod.getProductid(),prod.getProductname(),prod.getPrice());
+		 System.out.println();
+	       }}catch(Exception e){
+		 e.printStackTrace();
+	         }
+		return null;
+		
+	}
+	public List<Product> searchByname(String name)
+	{
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Product.class).buildSessionFactory();
+		 Session s=sx.openSession();
+         Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 System.out.println("-----------------------------------");
+		 System.out.format("%-10s %-10s %-10s","Productid","Price","Productname");
+		 System.out.println();
+		 System.out.println("-------------------------------------");
+		 Query query=s.createQuery("From Product where productname=:pname");
+                 query.setParameter("pname", name);
+                 List pb=query.list();
+                  for(Iterator iterate=pb.iterator();iterate.hasNext();){
+				 Product prod=(Product) iterate.next();
+                 System.out.format("%-10s %-10s %-10s", prod.getProductid(),prod.getProductname(),prod.getPrice());
+	       	 System.out.println();
+	 }}catch(Exception e){
+		 e.printStackTrace();
+	 }
+		return null;
+		
+	}
+
+	public List<Product> searchByrange(int fromPrice,int toPrice)
+	{
+		SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(Product.class).buildSessionFactory();
+		 Session s=sx.openSession();
+        Transaction tx=null;
+		 try{
+		 tx=s.beginTransaction();
+		 System.out.println("-----------------------------------");
+		 System.out.format("%-10s %-10s %-10s","Productid","Productname","Price");
+		 System.out.println();
+		 System.out.println("-------------------------------------");
+		 Query query=s.createQuery("From Product where price between :from and :to");
+                  query.setParameter("from", fromPrice);
+                  query.setParameter("to", toPrice);
+
+                  List pb=query.list();
+                  for(Iterator iterate=pb.iterator();iterate.hasNext();){
+				 Product prod=(Product) iterate.next();
+	           System.out.format("%-10s %-10s %-10s", prod.getProductid(),prod.getProductname(),prod.getPrice());
+		 System.out.println();
+	 }}catch(Exception e){
+		 e.printStackTrace();
+	 }
+		return null;		
+	}
+
+..................................................................
+mymain.java
+
+                        System.out.println("--PMS---");
+			System.out.println("..Welcome to Product Management System..");
+			MenuScreen ms=new MenuScreen();
+			ms.showMenu();
+...........................................................................
+
+datavalidator.java
+
+public boolean validateProduct(Product product)
+		{
+
+	HibernateUtil u=new HibernateUtil();
+	u.saveProduct(product);
+
+			return true;
+	}
+	public boolean updateProduct(Product product)
+	{ 
+		
+		HibernateUtil u=new HibernateUtil();
+			u.updateProduct(product);
+		
+		return true;
+	}
+	public boolean deleteProduct(Product product)
+	{
+		HibernateUtil u=new HibernateUtil();
+		
+			u.deleteProduct(product);
+		
+		return true;
+	}
+public boolean validateCustomer(Customer customer)  throws ProductException
+	{
+		 String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
+                 "[a-zA-Z0-9_+&*-]+)*@" + 
+                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
+                 "A-Z]{2,7}$"; 
+		
+		   Pattern pat = Pattern.compile(emailRegex); 
+          String email=customer.getEmail();
+ Pattern p = Pattern.compile("(0/91)?[7-9][0-9]{9}"); 
+          String num=customer.getMobile();
+          Matcher m = p.matcher(num); 
+	      if(pat.matcher(email).matches()){
+        	  if(m.find() && m.group().equals(num)){
+        	       CustomerController cc=new CustomerController();
+        	        cc.saveCustomer(customer);
+        	  }else{
+            	  throw new ProductException("Invalid mobileno");
+
+        	  }
+          }else{
+        	  throw new ProductException("Invalid Email");
+          }
+		// Code to call DAO..
+		return true;
+...........................................................................................
+productexception.java
+
+public class ProductException extends Exception {
+	public ProductException(String msg) {
+		super(msg);
+		// TODO Auto-generated constructor stub
+	}
+............................................................................................
+
